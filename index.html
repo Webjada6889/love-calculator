@@ -1,0 +1,373 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>Love Calculator ❤️</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #0f172a;
+  color: white;
+  transition: 0.5s;
+}
+
+.light {
+  background: #f1f5f9;
+  color: black;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+input, button {
+  padding: 12px;
+  margin: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+}
+
+#result {
+  font-size: 28px;
+  margin-top: 20px;
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+</style>
+
+</head>
+<body>
+
+<h1>❤️ Love Calculator ❤️</h1>
+
+<button onclick="toggleMode()">🌙 Toggle Mode</button>
+
+<div class="container">
+
+<h2>Login / Register</h2>
+<input id="username" placeholder="Username"><br>
+<input id="password" type="password" placeholder="Password"><br>
+
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+
+<hr>
+
+<h2>Calculate Love</h2>
+<input id="name1" placeholder="Your Name"><br>
+<input id="name2" placeholder="Partner Name"><br>
+
+<button onclick="calculate()">❤️ Calculate</button>
+
+<div id="result"></div>
+
+</div>
+
+<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
+
+<script>
+function toggleMode() {
+  document.body.classList.toggle("light");
+}
+
+// Register
+async function register() {
+  const res = await fetch("http://localhost:3000/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: username.value,
+      password: password.value
+    })
+  });
+
+  const data = await res.json();
+  alert(data.message || data.error);
+}
+
+// Login
+async function login() {
+  const res = await fetch("http://localhost:3000/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: username.value,
+      password: password.value
+    })
+  });
+
+  const data = await res.json();
+  alert(data.message || data.error);
+}
+
+// Calculate
+async function calculate() {
+  document.getElementById("sound").play();
+
+  const res = await fetch("http://localhost:3000/calculate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name1: name1.value,
+      name2: name2.value
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.error) {
+    alert(data.error);
+  } else {
+    document.getElementById("result").innerText =
+      data.percentage + "% - " + data.message;
+  }
+}
+</script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator | Find Your Match</title>
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --secondary-pink: #ff758f;
+            --bg-color: pink;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* LIGHT MODE */
+.light-mode {
+    background: #fff0f3;
+    color: #222;
+}
+
+/* DARK MODE (default) */
+body {
+    background: #0f172a;
+    color: white;
+    transition: 0.4s ease;
+}
+
+h1, h2 {
+    margin-bottom: 10px;
+}
+
+p {
+    line-height: 1.4;
+}
+
+/* Card */
+.card {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 20px;
+    transition: 0.4s;
+}
+
+.light-mode .card {
+    background: #ffffff;
+}
+
+/* Button animation */
+button {
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+        h1 { color: var(--primary-pink); margin-bottom: 1.5rem; }
+
+        .input-group { margin-bottom: 1rem; }
+
+        input {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus { border-color: var(--primary-pink); }
+
+        button {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        button:hover {
+            background: var(--secondary-pink);
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #444;
+            min-height: 50px;
+        }
+
+        .subtitle {
+          font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+        .score {
+            font-size: 3rem;
+            display: block;
+            color: var(--primary-pink);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+<button onclick="toggleMode()" id="modeBtn">
+🌙 Dark Mode
+</button>
+<h2>Welcome 💕</h2>
+<p>
+Enter two names and discover your love percentage 💖
+</p>
+    <h1>❤️ Jada love calculator</h1>
+    <p class="subtitle">
+Find out your love compatibility in seconds 💕  
+Fun, fast, and full of surprises ✨
+</p>
+    <div class="input-group">
+        <input type="text" id="name1" placeholder="Your Name">
+    </div>
+    <div class="input-group">
+        <input type="text" id="name2" placeholder="Her Name">
+    </div>
+    <button onclick="calculateLove()">Calculate Compatibility</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+
+  document.getElementById('result').innerHTML = `
+    <div style="margin-top:20px;">
+        <h2>💘 Compatibility Result</h2>
+        <span class="score">${loveScore}%</span>
+        <p>${message}</p>
+        <p style="font-size:12px;opacity:0.7;">
+            Calculated based on name energy ✨
+        </p>
+    </div>
+`;
+
+function toggleMode() {
+    document.body.classList.toggle("light-mode");
+
+    const btn = document.getElementById("modeBtn");
+
+    if (document.body.classList.contains("light-mode")) {
+        btn.innerText = "☀️ Light Mode";
+        localStorage.setItem("mode", "light");
+    } else {
+        btn.innerText = "🌙 Dark Mode";
+        localStorage.setItem("mode", "dark");
+    }
+}
+
+// Load saved mode
+window.onload = function () {
+    const mode = localStorage.getItem("mode");
+
+    const btn = document.getElementById("modeBtn");
+
+    if (mode === "light") {
+        document.body.classList.add("light-mode");
+        btn.innerText = "☀️ Light Mode";
+    } else {
+        btn.innerText = "🌙 Dark Mode";
+    }
+};
+
+    function calculateLove() {
+        const name1 = document.getElementById('name1').value.trim();
+        const name2 = document.getElementById('name2').value.trim();
+
+        if (name1 === "" || name2 === "") {
+            alert("Please enter both names!");
+            return;
+        }
+
+        // Logic: A simple deterministic hash based on the names
+        // This ensures the same names always give the same result
+        let combinedString = (name1 + name2).toLowerCase().replace(/\s+/g, '');
+        let hash = 0;
+        for (let i = 0; i < combinedString.length; i++) {
+            hash += combinedString.charCodeAt(i);
+        }
+
+        // Generate a score between 40 and 100 for better "vibes"
+        const loveScore = (hash % 61) + 40;
+
+        let message = "";
+        if (loveScore > 90) message = "Marriage! 💍";
+        else if (loveScore > 70) message = "lovers! 🔥";
+        else if (loveScore > 50) message = "two things. 😊";
+        else if (loveScore > 50) message = "friends! 😊";
+        else message = "Maybe just friends? ☕";
+
+        document.getElementById('result').innerHTML = `
+            <span class="score">${loveScore}%</span>
+            <p>${message}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
